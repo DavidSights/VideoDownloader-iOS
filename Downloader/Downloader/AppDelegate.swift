@@ -14,18 +14,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var navigationController: UINavigationController?
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]? = nil) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.backgroundColor = .white
         window?.makeKeyAndVisible()
 
-        let rootController: ViewController = ViewController()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        navigationController = UINavigationController(rootViewController: rootController)
-        window?.rootViewController = navigationController
+        guard let viewController = storyboard.instantiateInitialViewController() else {
+            fatalError()
+        }
+
+        window?.rootViewController = viewController
 
         return true
     }

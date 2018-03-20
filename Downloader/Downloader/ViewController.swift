@@ -24,8 +24,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpSearchBar()
-        setUpWebView()
+//        setUpSearchBar()
+//        setUpWebView()
     }
 
     // MARK: - Convenience Methods
@@ -74,15 +74,15 @@ class ViewController: UIViewController {
 
         view.addSubview(webView)
 
-        let webviewConsWidth=NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|",
-                                                            options: NSLayoutFormatOptions(rawValue: 0),
-                                                            metrics: nil,
-                                                            views: ["webView": webView])
+        let webviewConsWidth = NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|",
+                                                              options: NSLayoutFormatOptions(rawValue: 0),
+                                                              metrics: nil,
+                                                              views: ["webView": webView])
 
-        let webviewConsHeight=NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|",
-                                                             options: NSLayoutFormatOptions(rawValue: 0),
-                                                             metrics: nil,
-                                                             views: ["webView": webView])
+        let webviewConsHeight = NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|",
+                                                               options: NSLayoutFormatOptions(rawValue: 0),
+                                                               metrics: nil,
+                                                               views: ["webView": webView])
         view.addConstraints(webviewConsWidth)
         view.addConstraints(webviewConsHeight)
     }
