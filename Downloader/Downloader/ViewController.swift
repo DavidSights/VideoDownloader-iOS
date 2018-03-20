@@ -133,6 +133,16 @@ class ViewController: UIViewController {
 
 extension ViewController: UISearchBarDelegate {
 
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
+        searchBar.showsCancelButton = true
+        searchBar.placeholder = "Search or enter web address"
+
+        if searchURL != nil {
+            searchBar.text = searchURL.absoluteString
+        }
+    }
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
@@ -152,16 +162,6 @@ extension ViewController: UISearchBarDelegate {
         // Load the url into webview
         let request = URLRequest(url: searchURL)
         webView?.loadRequest(request)
-    }
-
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-
-        searchBar.showsCancelButton = true
-        searchBar.placeholder = "Search or enter web address"
-
-        if searchURL != nil {
-            searchBar.text = searchURL.absoluteString
-        }
     }
 }
 

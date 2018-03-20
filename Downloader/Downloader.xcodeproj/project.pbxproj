@@ -70,12 +70,12 @@
 		DC13B4E31BB6620E00957A66 = {
 			isa = PBXGroup;
 			children = (
-				DC51B1871BB6A4510064D882 /* AVKit.framework */,
-				DC51B1851BB6A44D0064D882 /* AVFoundation.framework */,
-				DCAC9D4B1BB6805D00026358 /* MediaPlayer.framework */,
 				DC13B4EE1BB6620E00957A66 /* Downloader */,
 				DC13B5071BB6620E00957A66 /* DownloaderTests */,
 				DC13B4ED1BB6620E00957A66 /* Products */,
+				DC51B1871BB6A4510064D882 /* AVKit.framework */,
+				DC51B1851BB6A44D0064D882 /* AVFoundation.framework */,
+				DCAC9D4B1BB6805D00026358 /* MediaPlayer.framework */,
 			);
 			sourceTree = "<group>";
 		};
