@@ -6,72 +6,83 @@
 //  Copyright (c) 2015 iSolutionsApps. All rights reserved.
 //
 
-//http://stackoverflow.com/questions/8518719/how-to-receive-nsnotifications-from-uiwebview-embedded-youtube-video-playback
+// http://stackoverflow.com/questions/8518719/how-to-receive-nsnotifications-from-uiwebview-embedded-youtube-video-playback
 
 import UIKit
-
 import MediaPlayer
-
 import AVFoundation
-
 import AVKit
 
-class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
+class ViewController: UIViewController, UIWebViewDelegate, UISearchBarDelegate {
 
     @IBOutlet var webView:UIWebView!
     
     var searchBar:UISearchBar!
-    
     var searchURL:NSURL!
+
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
-       
         super.viewDidLoad()
-        
-        self.searchBar=UISearchBar(frame: CGRectMake(0, 0, 250, 40))
-        
-        self.searchBar.tintColor=UIColor.whiteColor()
-        
-        self.searchBar.placeholder="Search or enter web address"
-        
-        self.searchBar.showsScopeBar=true
-        
-        self.searchBar.tintColor=UIColor.blackColor()
-        
-        self.searchBar.delegate=self;
-        
-        self.searchBar.searchBarStyle=UISearchBarStyle.Minimal
-        
-        self.navigationItem.titleView=self.searchBar;
-        
-        
-        self.webView=UIWebView()
-        
-        self.webView?.delegate=self
-        
-        self.webView!.translatesAutoresizingMaskIntoConstraints = false;
-        
-        self.view .addSubview(self.webView)
-        
-        let webviewConsWidth=NSLayoutConstraint.constraintsWithVisualFormat("H:|[webView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views:["webView":self.webView!])
-        
-        let webviewConsHeight=NSLayoutConstraint.constraintsWithVisualFormat("V:|[webView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views:["webView":self.webView!])
-        
-        self.view?.addConstraints(webviewConsWidth)
-        
-        self.view?.addConstraints(webviewConsHeight)
-        
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "movieLoaded:", name: "AVPlayerItemBecameCurrentNotification" , object:nil);
-        
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "moviePlayerLoaded:", name: UIWindowDidBecomeKeyNotification, object: nil);
-      
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "movieClosed:", name: UIWindowDidBecomeHiddenNotification, object: nil);
-        
-        print("This is the version 1.0 ")
-        
-        
+        self.setUpSearchBar()
+        self.setUpWebView()
+    }
+
+    private func setUpNotificationObservers() {
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.movieLoaded),
+                                               name: NSNotification.Name(rawValue: "AVPlayerItemBecameCurrentNotification"),
+                                               object:nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.moviePlayerLoaded),
+                                               name: .UIWindowDidBecomeKey,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.movieClosed),
+                                               name: .UIWindowDidBecomeHidden,
+                                               object: nil)
+    }
+
+    private func setUpSearchBar() {
+
+        let searchBarRect = CGRect(x: 0,
+                                   y: 0,
+                                   width: 250,
+                                   height: 40)
+
+        searchBar = UISearchBar(frame: searchBarRect)
+        searchBar.tintColor = .white
+        searchBar.placeholder = "Search or enter web address"
+        searchBar.showsScopeBar = true
+        searchBar.tintColor = .black
+        searchBar.delegate = self
+        searchBar.searchBarStyle = .minimal
+
+        navigationItem.titleView = searchBar
+    }
+
+    private func setUpWebView() {
+
+        webView = UIWebView()
+        webView.delegate = self
+        webView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(webView)
+
+        let webviewConsWidth=NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|",
+                                                            options: NSLayoutFormatOptions(rawValue: 0),
+                                                            metrics: nil,
+                                                            views: ["webView": self.webView])
+
+        let webviewConsHeight=NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|",
+                                                             options: NSLayoutFormatOptions(rawValue: 0),
+                                                             metrics: nil,
+                                                             views: ["webView": self.webView])
+        view.addConstraints(webviewConsWidth)
+        view.addConstraints(webviewConsHeight)
     }
     
     
@@ -81,9 +92,9 @@ class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
         
         if(navigationType==UIWebViewNavigationType.LinkClicked)
         {
-           print(request.URL, terminator: "")
+            print(request.URL, terminator: "")
             
-           // print(navigationType)
+            // print(navigationType)
         }
         
         return true
@@ -93,11 +104,11 @@ class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
     override func  observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
         print("KeyPath : "+keyPath!, terminator: "")
-    
+
     }
     
     func webViewDidStartLoad(webView: UIWebView) {
-       // print("Start")
+        // print("Start")
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
@@ -163,23 +174,23 @@ class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
         
         if let URL=searchURL
         {
-             self.searchBar.text=searchURL.absoluteString
+            self.searchBar.text=searchURL.absoluteString
             
         }
         
     }
     
-     // MARK: - General methods
+    // MARK: - General methods
     
-    func moviePlayerLoaded(notification:NSNotification)
+    @objc func moviePlayerLoaded(notification:NSNotification)
     {
         let window = notification.object as! UIWindow
         
         if (window != self.view.window)
         {
-            let lableDownloadButton:UIButton=UIButton(type: UIButtonType.Custom)
+            let lableDownloadButton:UIButton=UIButton(type: UIButtonType.custom)
             
-            lableDownloadButton.frame=CGRectMake(15, self.view.frame.size.height-60, 100, 35)
+            lableDownloadButton.frame = CGRectMake(15, self.view.frame.size.height-60, 100, 35)
             
             lableDownloadButton.layer.cornerRadius=5
             
@@ -198,7 +209,7 @@ class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
     }
     
     
-    func movieLoaded(notification:NSNotification)
+    @objc func movieLoaded(notification:NSNotification)
     {
         
         let avplayerItem=notification.object as? AVPlayerItem
@@ -210,12 +221,12 @@ class ViewController: UIViewController,UIWebViewDelegate,UISearchBarDelegate {
             print(asset.valueForKey("URL")!, terminator: "")
             
         }
-    
+
         
     }
     
     
-    func movieClosed(notification:NSNotification)
+    @objc func movieClosed(notification:NSNotification)
     {
         let window=notification.object as! UIWindow
         
