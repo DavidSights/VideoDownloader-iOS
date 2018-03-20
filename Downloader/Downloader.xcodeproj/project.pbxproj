@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		DC13B4F21BB6620E00957A66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B4F11BB6620E00957A66 /* AppDelegate.swift */; };
 		DC13B4F51BB6620E00957A66 /* Downloader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC13B4F31BB6620E00957A66 /* Downloader.xcdatamodeld */; };
-		DC13B4F71BB6620E00957A66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B4F61BB6620E00957A66 /* ViewController.swift */; };
+		DC13B4F71BB6620E00957A66 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC13B4F61BB6620E00957A66 /* WebViewController.swift */; };
 		DC13B4FA1BB6620E00957A66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC13B4F81BB6620E00957A66 /* Main.storyboard */; };
 		DC13B4FC1BB6620E00957A66 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC13B4FB1BB6620E00957A66 /* Images.xcassets */; };
 		DC13B4FF1BB6620E00957A66 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC13B4FD1BB6620E00957A66 /* LaunchScreen.xib */; };
@@ -34,7 +34,7 @@
 		DC13B4F01BB6620E00957A66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC13B4F11BB6620E00957A66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC13B4F41BB6620E00957A66 /* Downloader.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Downloader.xcdatamodel; sourceTree = "<group>"; };
-		DC13B4F61BB6620E00957A66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DC13B4F61BB6620E00957A66 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		DC13B4F91BB6620E00957A66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DC13B4FB1BB6620E00957A66 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DC13B4FE1BB6620E00957A66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				DC13B4F11BB6620E00957A66 /* AppDelegate.swift */,
-				DC13B4F61BB6620E00957A66 /* ViewController.swift */,
+				DC13B4F61BB6620E00957A66 /* WebViewController.swift */,
 				DC13B4F81BB6620E00957A66 /* Main.storyboard */,
 				DC13B4FB1BB6620E00957A66 /* Images.xcassets */,
 				DC13B4FD1BB6620E00957A66 /* LaunchScreen.xib */,
@@ -229,7 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC13B4F71BB6620E00957A66 /* ViewController.swift in Sources */,
+				DC13B4F71BB6620E00957A66 /* WebViewController.swift in Sources */,
 				DC13B4F51BB6620E00957A66 /* Downloader.xcdatamodeld in Sources */,
 				DC13B4F21BB6620E00957A66 /* AppDelegate.swift in Sources */,
 			);

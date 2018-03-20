@@ -13,19 +13,30 @@ import MediaPlayer
 import AVFoundation
 import AVKit
 
-class ViewController: UIViewController {
+class WebViewController: UIViewController {
 
-    @IBOutlet var webView: UIWebView!
+    @IBOutlet private var webView: UIWebView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    var searchBar: UISearchBar!
-    var searchURL: URL!
+    private var searchBar: UISearchBar!
+    private var searchURL: URL!
+
+    private var initialUrlAddress = "https://google.com/"
 
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        setUpSearchBar()
-//        setUpWebView()
+
+        webView.delegate = self
+
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.stopAnimating()
+
+        guard let url = URL(string: initialUrlAddress) else { return }
+        let request = URLRequest(url: url)
+        webView.loadRequest(request)
     }
 
     // MARK: - Convenience Methods
@@ -33,17 +44,17 @@ class ViewController: UIViewController {
     private func setUpNotificationObservers() {
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ViewController.movieLoaded),
+                                               selector: #selector(WebViewController.movieLoaded),
                                                name: NSNotification.Name(rawValue: "AVPlayerItemBecameCurrentNotification"),
                                                object:nil)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ViewController.moviePlayerLoaded),
+                                               selector: #selector(WebViewController.moviePlayerLoaded),
                                                name: .UIWindowDidBecomeKey,
                                                object: nil)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ViewController.movieClosed),
+                                               selector: #selector(WebViewController.movieClosed),
                                                name: .UIWindowDidBecomeHidden,
                                                object: nil)
     }
@@ -64,27 +75,6 @@ class ViewController: UIViewController {
         searchBar.searchBarStyle = .minimal
 
         navigationItem.titleView = searchBar
-    }
-
-    private func setUpWebView() {
-
-        webView = UIWebView()
-        webView.delegate = self
-        webView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(webView)
-
-        let webviewConsWidth = NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|",
-                                                              options: NSLayoutFormatOptions(rawValue: 0),
-                                                              metrics: nil,
-                                                              views: ["webView": webView])
-
-        let webviewConsHeight = NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|",
-                                                               options: NSLayoutFormatOptions(rawValue: 0),
-                                                               metrics: nil,
-                                                               views: ["webView": webView])
-        view.addConstraints(webviewConsWidth)
-        view.addConstraints(webviewConsHeight)
     }
 
     // MARK: - Notification Handling
@@ -131,7 +121,7 @@ class ViewController: UIViewController {
 
 // MARK: - UISearchBarDelegate
 
-extension ViewController: UISearchBarDelegate {
+extension WebViewController: UISearchBarDelegate {
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 
@@ -167,7 +157,7 @@ extension ViewController: UISearchBarDelegate {
 
 // MARK: - UIWebViewDelegate
 
-extension ViewController: UIWebViewDelegate {
+extension WebViewController: UIWebViewDelegate {
 
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
 
@@ -187,10 +177,10 @@ extension ViewController: UIWebViewDelegate {
     }
 
     func webViewDidStartLoad(_ webView: UIWebView) {
-        print("Web View did start load.")
+        activityIndicator.startAnimating()
     }
 
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        print("Web view did finish load.")
+        activityIndicator.stopAnimating()
     }
 }
