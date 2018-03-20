@@ -14,25 +14,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var navigationController:UINavigationController?
+    var navigationController: UINavigationController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
+
         // UiSearchBar Appearence
-                
+
         // navigation bar appearence settings
-        
+
        // UINavigationBar.appearance().backgroundColor=UIColor.brownColor()
-        
+
 //        UINavigationBar.appearance().barTintColor=UIColor(red: 255.0/255.0, green: 167.0/255.0, blue: 51.0/255.0, alpha: 1.0)
 //        
 //       UINavigationBar.appearance().translucent=true
-        
+
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.backgroundColor = UIColor.whiteColor()
         self.window?.makeKeyAndVisible()
-        let rootController:ViewController=ViewController()
+        let rootController: ViewController=ViewController()
         self.navigationController=UINavigationController(rootViewController: rootController)
         self.window?.rootViewController=self.navigationController
         return true
@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "iSolutionsApps.Downloader" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] 
+        return urls[urls.count-1]
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             fatalError()
         }
-        
+
         return coordinator
     }()
 
@@ -136,4 +136,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

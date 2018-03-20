@@ -13,20 +13,22 @@ import MediaPlayer
 import AVFoundation
 import AVKit
 
-class ViewController: UIViewController, UIWebViewDelegate, UISearchBarDelegate {
+class ViewController: UIViewController {
 
-    @IBOutlet var webView:UIWebView!
-    
-    var searchBar:UISearchBar!
-    var searchURL:NSURL!
+    @IBOutlet var webView: UIWebView!
+
+    var searchBar: UISearchBar!
+    var searchURL: URL!
 
     // MARK: - View Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setUpSearchBar()
-        self.setUpWebView()
+        setUpSearchBar()
+        setUpWebView()
     }
+
+    // MARK: - Convenience Methods
 
     private func setUpNotificationObservers() {
 
@@ -75,169 +77,117 @@ class ViewController: UIViewController, UIWebViewDelegate, UISearchBarDelegate {
         let webviewConsWidth=NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|",
                                                             options: NSLayoutFormatOptions(rawValue: 0),
                                                             metrics: nil,
-                                                            views: ["webView": self.webView])
+                                                            views: ["webView": webView])
 
         let webviewConsHeight=NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|",
                                                              options: NSLayoutFormatOptions(rawValue: 0),
                                                              metrics: nil,
-                                                             views: ["webView": self.webView])
+                                                             views: ["webView": webView])
         view.addConstraints(webviewConsWidth)
         view.addConstraints(webviewConsHeight)
     }
-    
-    
-    // MARK: - WebView Delegate methods
-    
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
-        if(navigationType==UIWebViewNavigationType.LinkClicked)
-        {
-            print(request.URL, terminator: "")
-            
-            // print(navigationType)
+
+    // MARK: - Notification Handling
+
+    @objc func moviePlayerLoaded(notification: NSNotification) {
+
+        guard let window = notification.object as? UIWindow else { return }
+
+        if window != view.window {
+
+            let lableDownloadButton: UIButton=UIButton(type: UIButtonType.custom)
+
+            let downloadButtonFrame = CGRect(x: 15,
+                                             y: view.frame.size.height - 60,
+                                             width: 100,
+                                             height: 35)
+
+            lableDownloadButton.frame = downloadButtonFrame
+            lableDownloadButton.layer.cornerRadius = 5
+            lableDownloadButton.clipsToBounds = true
+            lableDownloadButton.backgroundColor = .white
+            lableDownloadButton.backgroundColor = .orange
+            lableDownloadButton.setTitle("Download", for: .normal)
+            window.addSubview(lableDownloadButton)
         }
-        
-        return true
-        
     }
-    
-    override func  observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
-    {
-        print("KeyPath : "+keyPath!, terminator: "")
 
-    }
-    
-    func webViewDidStartLoad(webView: UIWebView) {
-        // print("Start")
-    }
-    
-    func webViewDidFinishLoad(webView: UIWebView) {
-        
-        //print("Finished")
-    }
-    
-    // MARK: - Searchbar Delegate methods
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    @objc func movieLoaded(notification: NSNotification) {
 
-
-    }
-    
-    func searchBarBookmarkButtonClicked(searchBar: UISearchBar) {
-        
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        
-        // Hide the keypad
-        searchBar .resignFirstResponder()
-        
-        // Hide the cancel button
-        searchBar.showsCancelButton=false
-        
-    }
-    
-    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
-        
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        
-        // Check whether the search bar text empty or not
-        
-        if let _=searchBar.text
-        {
-            searchURL=NSURL(string: searchBar.text!)
+        if let playerItem = notification.object as? AVPlayerItem,
+            let urlValue = playerItem.asset.value(forKey: "URL") {
+            print("Movie loaded with value: \(urlValue)")
         }
-        
-        // Hide the Searchbar keypad
-        searchBar .resignFirstResponder()
-        
-        // Hide the cancel button
-        searchBar.showsCancelButton=false
-        
-        searchBar.text=""
-        
-        searchBar.placeholder=searchURL.host
-        
-        // Load the url into webview
-        self.webView?.loadRequest(NSURLRequest(URL:searchURL))
-    }
-    
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        
-        // Show the search bar cancel buutton
-        self.searchBar.showsCancelButton=true
-        
-        //
-        self.searchBar.placeholder="Search or enter web address"
-        
-        if let URL=searchURL
-        {
-            self.searchBar.text=searchURL.absoluteString
-            
-        }
-        
-    }
-    
-    // MARK: - General methods
-    
-    @objc func moviePlayerLoaded(notification:NSNotification)
-    {
-        let window = notification.object as! UIWindow
-        
-        if (window != self.view.window)
-        {
-            let lableDownloadButton:UIButton=UIButton(type: UIButtonType.custom)
-            
-            lableDownloadButton.frame = CGRectMake(15, self.view.frame.size.height-60, 100, 35)
-            
-            lableDownloadButton.layer.cornerRadius=5
-            
-            lableDownloadButton.clipsToBounds=true
-            
-            lableDownloadButton.backgroundColor=UIColor.whiteColor()
-            
-            lableDownloadButton.setTitle("Download", forState: UIControlState.Normal)
-            
-            lableDownloadButton.backgroundColor=UIColor.orangeColor()
-            
-            window .addSubview(lableDownloadButton)
-            
-        }
-        
-    }
-    
-    
-    @objc func movieLoaded(notification:NSNotification)
-    {
-        
-        let avplayerItem=notification.object as? AVPlayerItem
-        
-        if let playItem = avplayerItem{
-            
-            let asset=playItem.asset as AVAsset
-            
-            print(asset.valueForKey("URL")!, terminator: "")
-            
-        }
-
-        
-    }
-    
-    
-    @objc func movieClosed(notification:NSNotification)
-    {
-        let window=notification.object as! UIWindow
-        
-        print(window.rootViewController?.childViewControllers, terminator: "")
-        
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
+    @objc func movieClosed(notification: NSNotification) {
 
+        if let window = notification.object as? UIWindow,
+            let childViewControllers =  window.rootViewController?.childViewControllers {
+            print("Movie closed with child view controllers: \(childViewControllers)")
+        }
+    }
 }
 
+// MARK: - UISearchBarDelegate
+
+extension ViewController: UISearchBarDelegate {
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
+        if let text = searchBar.text {
+            searchURL = URL(string: text)
+        }
+
+        searchBar .resignFirstResponder()
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.placeholder = searchURL.host
+
+        // Load the url into webview
+        let request = URLRequest(url: searchURL)
+        webView?.loadRequest(request)
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
+        searchBar.showsCancelButton = true
+        searchBar.placeholder = "Search or enter web address"
+
+        if searchURL != nil {
+            searchBar.text = searchURL.absoluteString
+        }
+    }
+}
+
+// MARK: - UIWebViewDelegate
+
+extension ViewController: UIWebViewDelegate {
+
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+
+        if navigationType == .linkClicked {
+            guard let url = request.url else { return true }
+            print("Web view should start load with request URL: \(url.absoluteString)")
+        }
+
+        return true
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        print("KeyPath: " + keyPath!)
+    }
+
+    func webViewDidStartLoad(_ webView: UIWebView) {
+        print("Web View did start load.")
+    }
+
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        print("Web view did finish load.")
+    }
+}
