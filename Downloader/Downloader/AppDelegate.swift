@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                configurationName: nil,
                                                at: url,
                                                options: nil)
-        } catch var error {
+        } catch {
             fatalError("Unresolved error while accessing persistentStoreCoordinator: \(error.localizedDescription)")
         }
 
@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 do {
                     try moc.save()
 
-                } catch let error {
+                } catch {
                     fatalError("Error while saving context: \(error.localizedDescription)")
                 }
             }
