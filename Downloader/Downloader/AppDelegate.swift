@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 do {
                     try moc.save()
 
-                } catch let error as NSError {
+                } catch let error {
                     fatalError("Error while saving context: \(error.localizedDescription)")
                 }
             }
