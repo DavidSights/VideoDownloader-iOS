@@ -180,7 +180,10 @@ extension ViewController: UIWebViewDelegate {
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
-        print("KeyPath: " + keyPath!)
+
+        if let keyPath = keyPath {
+            print("keyPath: \(keyPath)")
+        }
     }
 
     func webViewDidStartLoad(_ webView: UIWebView) {
