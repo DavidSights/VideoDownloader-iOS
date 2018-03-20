@@ -1,10 +1,13 @@
 //
-//  ViewController.swift
+//  WebViewController.swift
 //  Downloader
 //
 //  Created by ndot on 9/26/15.
 //  Copyright (c) 2015 iSolutionsApps. All rights reserved.
 //
+//  Updated by David Seitz Jr on 3/20/18.
+//
+
 
 // http://stackoverflow.com/questions/8518719/how-to-receive-nsnotifications-from-uiwebview-embedded-youtube-video-playback
 
@@ -21,7 +24,7 @@ class WebViewController: UIViewController {
     private var searchBar: UISearchBar!
     private var searchURL: URL!
 
-    private var initialUrlAddress = "https://google.com/"
+    private var initialUrlAddress = "https://youtube.com/"
 
     // MARK: - View Lifecycle
 
