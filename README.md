@@ -1,9 +1,9 @@
 # VideoDownloader-iOS
 
-A work-in-progress video downloader for iOS.
+Download and save videos from the web. Still in early development.
 
-Todo:
-- Finish basic webview interaction.
-- Set up a UI for saving and browsing saved videos.
-- Set up CoreData logic for saving videos.
-- Set up logic for downloading videos from app to the device photo library.
+## Todo
+- [ ] Retrieve videos from web view
+- [ ] Save videos to device photo library
+- [ ] Write FileManager and CoreData logic for saving videos
+- [ ] Create a UI for saving and browsing saved videos
